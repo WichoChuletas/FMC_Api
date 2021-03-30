@@ -1,4 +1,4 @@
-import requests,json,urllib3
+import requests,json,urllib3,csv
 
 urllib3.disable_warnings()
 
@@ -71,9 +71,19 @@ def detailAccessPolicy(token, idAccesPolicy):
     policyName= policy["name"]
     policyId= policy["id"]
 
-    print(f"Access Policy for this device:\nType: {policyType}\nName: {policyName}\nId: {policyId}")
+    createCSV(policyType, policyName, policyId)
+    #print(f"Access Policy for this device:\nType: {policyType}\nName: {policyName}\nId: {policyId}")
 
+def createCSV(policyType, policyName, policyId):
+    data=[["Type", "Name", "Id"],
+    [policyType,policyName,policyId]]
 
+    myFile= open('data.csv','w')
+    with myFile:
+        writer= csv.writer(myFile)
+        writer.writerows(data)
+
+    print("file .csv was created with the Access Policy Data")
 
 account=input("Usuario: ")
 password= input("Password: ")
